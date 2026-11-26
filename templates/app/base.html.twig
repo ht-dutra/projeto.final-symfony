@@ -32,13 +32,6 @@
                         </svg>
                         <span class="nd-cart-label">Carrinho</span>
                     </button>
-
-                    {% if app.user %}
-                        <span class="nd-nav__user" title="{{ app.user.userIdentifier }}">{{ app.user.userIdentifier }}</span>
-                        <a class="btn btn-sm btn-secondary" href="{{ path('app_logout') }}">Sair</a>
-                    {% else %}
-                        <a class="btn btn-sm btn-primary" href="{{ path('app_login') }}">Entrar</a>
-                    {% endif %}
                 </div>
             </nav>
         </header>
