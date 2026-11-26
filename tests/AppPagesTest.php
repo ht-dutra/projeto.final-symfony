@@ -45,8 +45,11 @@ class AppPagesTest extends WebTestCase
         try {
             $client->loginUser($user);
 
+            $client->request('GET', '/');
+            self::assertSelectorTextContains('.nd-nav__right', 'Sair');
+
             $urls = [
-                '/app',
+                '/',
                 '/app/produtos',
                 '/app/categorias',
                 '/app/produtos/cadastrar',
@@ -66,6 +69,24 @@ class AppPagesTest extends WebTestCase
             $connection->executeStatement('DELETE FROM categoria WHERE id = ?', [$categoriaId]);
             $connection->executeStatement('DELETE FROM usuario WHERE id = ?', [$userId]);
         }
+    }
+
+    public function testStorefrontIsPublic(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/');
+
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('.nd-nav__right', 'Entrar');
+        self::assertSelectorTextNotContains('.nd-nav__right', 'Sair');
+    }
+
+    public function testAdminAreaRequiresLogin(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/app/produtos');
+
+        self::assertResponseRedirects('/login');
     }
 
     public function testLoginPageRenders(): void

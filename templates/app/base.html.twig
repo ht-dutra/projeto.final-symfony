@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% set rota = app.request.attributes.get('_route') %}
-{% set email = app.user.userIdentifier %}
 
 {% block layout %}
     <div class="nd-app-shell">
@@ -12,11 +11,16 @@
                         {% include '_partials/_brand.html.twig' with { comNome: true } %}
                     </a>
 
-                    <ul class="nd-nav__links">
-                        <li>
-                            <a href="{{ path('app_app') }}" class="{{ rota == 'app_app' ? 'active' }}"{% if rota == 'app_app' %} aria-current="page"{% endif %}>Painel</a>
-                        </li>
-                    </ul>
+                    {% if app.user %}
+                        <ul class="nd-nav__links">
+                            <li>
+                                <a href="{{ path('app_produto_index') }}" class="{{ rota == 'app_produto_index' ? 'active' }}"{% if rota == 'app_produto_index' %} aria-current="page"{% endif %}>Produtos</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('listar_categorias') }}" class="{{ rota == 'listar_categorias' ? 'active' }}"{% if rota == 'listar_categorias' %} aria-current="page"{% endif %}>Categorias</a>
+                            </li>
+                        </ul>
+                    {% endif %}
                 </div>
 
                 <div class="nd-nav__right">
@@ -29,8 +33,12 @@
                         <span class="nd-cart-label">Carrinho</span>
                     </button>
 
-                    <span class="nd-nav__user" title="{{ email }}">{{ email }}</span>
-                    <a class="btn btn-sm btn-secondary" href="{{ path('app_logout') }}">Sair</a>
+                    {% if app.user %}
+                        <span class="nd-nav__user" title="{{ app.user.userIdentifier }}">{{ app.user.userIdentifier }}</span>
+                        <a class="btn btn-sm btn-secondary" href="{{ path('app_logout') }}">Sair</a>
+                    {% else %}
+                        <a class="btn btn-sm btn-primary" href="{{ path('app_login') }}">Entrar</a>
+                    {% endif %}
                 </div>
             </nav>
         </header>
