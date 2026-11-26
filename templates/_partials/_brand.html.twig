@@ -1,0 +1,8 @@
+{% set comNome = comNome|default(false) %}
+
+<span class="nd-brand">
+    <img src="{{ asset('images/logo.png') }}" alt="" class="nd-brand__logo" width="189" height="128">
+    {% if comNome %}
+        <span class="nd-brand__name">Nerd<span>Dev</span></span>
+    {% endif %}
+</span>

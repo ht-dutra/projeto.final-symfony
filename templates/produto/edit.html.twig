@@ -3,11 +3,26 @@
 {% block title %}Editar produto{% endblock %}
 
 {% block content %}
-    <h1 class="h3">Editar produto</h1>
+    <header class="nd-page-head">
+        <div>
+            <p class="nd-eyebrow">Catálogo</p>
+            <h1 class="nd-title">Editar produto</h1>
+            <p class="nd-subtitle">Atualize as informações de <strong>{{ produto.nome }}</strong>.</p>
+        </div>
+        <a href="{{ path('app_produto_index') }}" class="btn btn-secondary">Voltar</a>
+    </header>
 
-    {{ include('produto/_form.html.twig', {'button_label': 'Salvar alterações'}) }}
+    <section class="nd-panel">
+        {{ include('produto/_form.html.twig', {'button_label': 'Salvar alterações'}) }}
+    </section>
 
-    <a href="{{ path('app_produto_index') }}">Voltar para produtos</a>
-
-    {{ include('produto/_delete_form.html.twig') }}
+    <section class="nd-panel mt-4">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div>
+                <h2 class="h6 mb-1">Excluir produto</h2>
+                <p class="small text-secondary mb-0">Essa ação remove o produto do estoque e não pode ser desfeita.</p>
+            </div>
+            {{ include('produto/_delete_form.html.twig') }}
+        </div>
+    </section>
 {% endblock %}
