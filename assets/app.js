@@ -4,9 +4,9 @@ import './stimulus_bootstrap.js';
  *
  * This file will be included onto the page via the importmap() Twig function,
  * which should already be in your base.html.twig.
+ *
+ * Keep Bootstrap's CSS first so the NerdDev overrides in app.css win the cascade.
  */
-import './styles/app.css';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+import './styles/app.css';

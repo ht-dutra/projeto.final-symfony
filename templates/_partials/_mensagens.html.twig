@@ -1,11 +1,15 @@
-{% for label, messages in app.flashes %}
-    {% set tipo = label == 'error' ? 'danger' : label %}
-    {% set tipo = tipo in ['success', 'danger', 'warning', 'info', 'primary', 'secondary'] ? tipo : 'secondary' %}
+{% if app.flashes is not empty %}
+    <div class="nd-flashes">
+        {% for label, messages in app.flashes %}
+            {% set tipo = label == 'error' ? 'danger' : label %}
+            {% set tipo = tipo in ['success', 'danger', 'warning', 'info', 'primary', 'secondary'] ? tipo : 'secondary' %}
 
-    {% for message in messages %}
-        <div class="alert alert-{{ tipo }} alert-dismissible fade show" role="alert">
-            {{ message|trans }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
-        </div>
-    {% endfor %}
-{% endfor %}
+            {% for message in messages %}
+                <div class="alert nd-alert--{{ tipo }} alert-dismissible fade show" role="alert">
+                    {{ message|trans }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endif %}
