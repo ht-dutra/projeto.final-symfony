@@ -30,6 +30,9 @@ class Produto
     #[ORM\JoinColumn(nullable: false)]
     private ?Categoria $categoria = null;
 
+    #[ORM\Column(type: "text", nullable: true)]
+    private ?string $imagemUrl = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +94,18 @@ class Produto
     public function setCategoria(?Categoria $categoria): static
     {
         $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    public function getImagemUrl(): ?string
+    {
+        return $this->imagemUrl;
+    }
+
+    public function setImagemUrl(?string $imagemUrl): static
+    {
+        $this->imagemUrl = $imagemUrl;
 
         return $this;
     }

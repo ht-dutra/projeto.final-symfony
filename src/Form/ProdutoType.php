@@ -23,6 +23,7 @@ class ProdutoType extends AbstractType
                 'choice_label' => 'nome',
                 'label' => 'Categoria',
             ])
+            ->add('imagemUrl', null, ['label' => 'URL da Imagem', 'required' => false])
         ;
     }
 
