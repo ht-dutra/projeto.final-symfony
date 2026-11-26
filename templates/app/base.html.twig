@@ -1,31 +1,44 @@
 {% extends 'base.html.twig' %}
 
+{% set rota = app.request.attributes.get('_route') %}
+
 {% block layout %}
-    <div class="container py-4">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light rounded px-3 mb-4">
-            <div class="container-fluid px-0">
-                <a class="navbar-brand fw-semibold" href="{{ path('app_app') }}">Estoque Symfony</a>
+    <div class="nd-app-shell">
+        <header class="nd-topbar">
+            <nav class="nd-nav" aria-label="Principal">
+                <div class="nd-nav__left">
+                    <a href="{{ path('app_app') }}" aria-label="NerdDev — início">
+                        {% include '_partials/_brand.html.twig' with { comNome: true } %}
+                    </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#appNavigation" aria-controls="appNavigation" aria-expanded="false" aria-label="Abrir menu">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="appNavigation">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item"><a class="nav-link" href="{{ path('app_app') }}">Painel</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ path('listar_categorias') }}">Categorias</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ path('app_produto_index') }}">Produtos</a></li>
-                    </ul>
-
-                    <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
-                        <span class="small text-body-secondary">{{ app.user.userIdentifier }}</span>
-                        <a class="nav-link" href="{{ path('app_logout') }}">Sair</a>
-                    </div>
+                    {% if app.user %}
+                        <ul class="nd-nav__links">
+                            <li>
+                                <a href="{{ path('app_produto_index') }}" class="{{ rota == 'app_produto_index' ? 'active' }}"{% if rota == 'app_produto_index' %} aria-current="page"{% endif %}>Produtos</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('listar_categorias') }}" class="{{ rota == 'listar_categorias' ? 'active' }}"{% if rota == 'listar_categorias' %} aria-current="page"{% endif %}>Categorias</a>
+                            </li>
+                        </ul>
+                    {% endif %}
                 </div>
-            </div>
-        </nav>
 
-        {% include '_partials/_mensagens.html.twig' %}
-        {% block content %}{% endblock %}
+                <div class="nd-nav__right">
+                    <button type="button" class="btn btn-sm btn-secondary nd-cart-button" aria-label="Carrinho" title="Carrinho">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                            <circle cx="9" cy="20" r="1.4"/>
+                            <circle cx="18" cy="20" r="1.4"/>
+                            <path d="M3 4h2l2.4 11.2a1.5 1.5 0 0 0 1.47 1.18h8.7a1.5 1.5 0 0 0 1.47-1.18L20.5 8H6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="nd-cart-label">Carrinho</span>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <main class="container nd-main">
+            {% include '_partials/_mensagens.html.twig' %}
+            {% block content %}{% endblock %}
+        </main>
     </div>
 {% endblock %}

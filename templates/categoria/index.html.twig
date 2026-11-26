@@ -3,52 +3,84 @@
 {% block title %}Categorias{% endblock %}
 
 {% block content %}
-    <h1>Categorias</h1>
-
-    {{ form_start(form) }}
-        <div class="row align-items-end">
-            <div class="col-md-8">
-                {{ form_row(form.nome, { label: 'Nome' }) }}
-            </div>
-            <div class="col-md-4 mb-3">
-                <button type="submit" class="btn btn-primary">
-                    {% if editando|default(false) %}Salvar alterações{% else %}Cadastrar{% endif %}
-                </button>
-                {% if editando|default(false) %}
-                    <a href="{{ path('listar_categorias') }}">Cancelar</a>
-                {% endif %}
-            </div>
+    <header class="nd-page-head">
+        <div>
+            <p class="nd-eyebrow">Organização</p>
+            <h1 class="nd-title">Categorias</h1>
+            <p class="nd-subtitle">
+                {{ categorias|length }} {{ categorias|length == 1 ? 'categoria cadastrada' : 'categorias cadastradas' }}.
+            </p>
         </div>
-    {{ form_end(form) }}
+    </header>
 
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for categoria in categorias %}
+    <section class="nd-panel mb-4">
+        <div class="nd-panel__head">
+            <h2 class="nd-panel__title">{{ editando|default(false) ? 'Editar categoria' : 'Nova categoria' }}</h2>
+        </div>
+
+        {{ form_start(form) }}
+            <div class="row g-3 align-items-end">
+                <div class="col-12 col-md-8">
+                    {{ form_row(form.nome, { label: 'Nome' }) }}
+                </div>
+                <div class="col-12 col-md-4 mb-3">
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            {{ editando|default(false) ? 'Salvar alterações' : 'Cadastrar' }}
+                        </button>
+                        {% if editando|default(false) %}
+                            <a href="{{ path('listar_categorias') }}" class="btn btn-secondary">Cancelar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </section>
+
+    <section class="nd-panel nd-panel--flush">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
                     <tr>
-                        <td>{{ categoria.id }}</td>
-                        <td>{{ categoria.nome }}</td>
-                        <td>
-                            <a href="{{ path('editar_categoria', {id: categoria.id}) }}">Editar</a>
-                            <form action="{{ path('remover_categoria', {id: categoria.id}) }}" method="post" class="d-inline">
-                                <input type="hidden" name="_token" value="{{ csrf_token('remover_categoria' ~ categoria.id) }}">
-                                <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-                            </form>
-                        </td>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col" class="text-end">Ações</th>
                     </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="3">Nenhuma categoria cadastrada.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    {% for categoria in categorias %}
+                        <tr>
+                            <td class="text-secondary">#{{ categoria.id }}</td>
+                            <td class="fw-semibold">{{ categoria.nome }}</td>
+                            <td>
+                                <div class="d-flex flex-wrap gap-1 justify-content-end">
+                                    <a href="{{ path('editar_categoria', {id: categoria.id}) }}" class="btn btn-sm btn-secondary">Editar</a>
+                                    <form action="{{ path('remover_categoria', {id: categoria.id}) }}" method="post" class="d-inline">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('remover_categoria' ~ categoria.id) }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">
+                                <div class="nd-empty">
+                                    <span class="nd-empty__icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                            <path d="M4 7h16M4 12h16M4 17h10" stroke-linecap="round"/>
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <p class="fw-semibold text-body mb-1">Nenhuma categoria cadastrada</p>
+                                        <p class="mb-0">Use o formulário acima para criar a primeira.</p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
 {% endblock %}
